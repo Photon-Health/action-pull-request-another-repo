@@ -46,11 +46,13 @@ then
   echo "Pushing git commit"
   git push -f -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
-  gh pr create -t $INPUT_DESTINATION_HEAD_BRANCH \
-               -b $INPUT_DESTINATION_HEAD_BRANCH \
+  
+  gh pr create -t "[AUTO] Graphql Schema Update" \
+               -b "This is an automatically generated PR triggered by a update to https://github.com/Photon-Health/graphql" \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
-                  $PULL_REQUEST_REVIEWERS
+                  $PULL_REQUEST_REVIEWERS || \
+  echo "PR already exists"
 else
   echo "No changes detected"
 fi
